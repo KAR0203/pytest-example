@@ -6,13 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c9a77d5e-59bd-4dff-95fb-81effff37055" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/mymodule/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pytest-example.code-workspace" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pytest.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/mymodule/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/mymodule/test_funcs.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/mymodule/test_funcs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,18 +33,24 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Python tests.Python tests in test_funcs.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.pytest for test_funcs.test_multiply.executor&quot;: &quot;Run&quot;,
     &quot;Python.convert_script.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;Python.test_funcs.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/karan.pandhare/PytestSample/pytest-example&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/karan.pandhare/PytestSample/pytest-example/pytest-example/tests&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pytest-example/tests" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="pytest for test_funcs.test_multiply" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="pytest-example" />
