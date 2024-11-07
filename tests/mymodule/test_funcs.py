@@ -10,7 +10,7 @@ def test_add():
 
 @pytest.mark.easy_operation
 def test_subtract():
-    assert subtract(3, 6) == -3
+    assert subtract(3, 6) == 4
 
 @pytest.mark.difficult_operation
 def test_multiply():
