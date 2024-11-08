@@ -23,5 +23,5 @@ def test_divide():
 @pytest.mark.skip(reason="Skipping this test due to a bug.")
 def test_another_skipped_case():
 
-        # This is another test case that will be skipped
+     # This is another test case that will be skipped
     assert subtract(10, 5) == 5  # This assertion will not run
