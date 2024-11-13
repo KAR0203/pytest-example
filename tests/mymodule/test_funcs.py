@@ -6,7 +6,7 @@ from myapp.mymodule.funcs import *
 @pytest.mark.easy_operation
 def test_add():
 
-    assert add(4, 8) == 14
+    assert add(4, 8) == 16
 
 @pytest.mark.easy_operation
 def test_subtract():
@@ -14,7 +14,7 @@ def test_subtract():
 
 @pytest.mark.difficult_operation
 def test_multiply():
-    assert multiply(4, 5) == 20
+    assert multiply(4, 5) == 21
 
 @pytest.mark.difficult_operation
 def test_divide():
@@ -24,4 +24,4 @@ def test_divide():
 def test_another_skipped_case():
 
      # This is another test case that will be skipped
-    assert subtract(10, 5) == 5  # This assertion will not run
+    assert subtract(10, 5) == 8  # This assertion will not run
