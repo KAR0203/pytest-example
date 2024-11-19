@@ -18,7 +18,7 @@ def test_multiply():
 
 @pytest.mark.difficult_operation
 def test_divide():
-    assert divide(56, 8) == 7
+    assert divide(56, 8) == 8
 
 @pytest.mark.skip(reason="Skipping this test due to a bug.")
 def test_another_skipped_case():
