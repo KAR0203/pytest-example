@@ -15,7 +15,7 @@ def test_subtract():
     assert subtract(3, 6) == -3
 
 @pytest.mark.regression
-@pytest.mark.difficult_operation
+
 def test_multiply():
     # Marked as both difficult_operation and regression
     assert multiply(4, 5) == 20
