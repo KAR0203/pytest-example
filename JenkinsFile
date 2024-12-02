@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        PYTHON_HOME = '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python'  // Virtual environment Python path
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'develop2', url: 'https://github.com/KAR0203/Daily.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Create the virtual environment if it doesn't exist
+                    sh '${PYTHON_HOME} -m venv venv'  // Create virtual environment
+                    sh './venv/bin/pip install -r requirements.txt'  // Install dependencies
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Run tests using pytest from the virtual environment
+                    sh './venv/bin/pytest'  // Run tests
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up after the build
+            echo 'Cleaning up...'
+            sh 'rm -rf venv'  // Remove virtual environment after use
+        }
+        success {
+            echo 'Build and tests succeeded!'
+        }
+        failure {
+            echo 'Build or tests failed!'
+        }
+    }
+}
