@@ -37,6 +37,9 @@ pipeline {
             // Clean up (optional)
             echo 'Cleaning up...'
             sh 'rm -rf venv'
+
+            // Publish test results after the build is complete
+            junit '**/results.xml'  // Publish the results.xml test report
         }
         success {
             echo 'Build and tests succeeded!'
@@ -44,8 +47,5 @@ pipeline {
         failure {
             echo 'Build or tests failed!'
         }
-
-        // Correct placement of junit step to publish test results
-        junit '**/results.xml'  // Publish the results.xml test report
     }
 }
