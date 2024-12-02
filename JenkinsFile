@@ -22,7 +22,7 @@ pipeline {
                     if (conditionToAbort) {
                         echo 'Aborting the build due to a condition being met.'
                         // Set the build result to failure and stop further execution
-                        currentBuild.result = 'FAILURE'
+                        currentBuild.result = 'ABORTED'
                         return  // Exit the pipeline early, no need to run further stages
                     }
 
@@ -36,7 +36,7 @@ pipeline {
         // Skip this stage if the build is aborted
         stage('Run Tests') {
             when {
-                expression { currentBuild.result != 'FAILURE' }
+                expression { currentBuild.result != 'ABORTED' }
             }
             steps {
                 script {
@@ -56,12 +56,18 @@ pipeline {
 
         success {
             echo 'Build and tests succeeded!'
+            // Publish test results only if tests were run successfully
+            junit '**/results.xml'  // Publish the results.xml test report only if tests ran
         }
 
         failure {
             echo 'Build or tests failed!'
-            // Publish test results after the build is complete (this will run if the build fails)
-            junit '**/results.xml'  // Publish the results.xml test report only if tests ran
+            // No test results publishing if build fails without running tests
+        }
+
+        aborted {
+            echo 'Build was aborted, no tests were run.'
+            // No test results publishing if build was aborted
         }
     }
 }
