@@ -23,7 +23,7 @@ pipeline {
                         echo 'Aborting the build due to a condition being met.'
                         // Set the build result to failure and stop further execution
                         currentBuild.result = 'FAILURE'
-                        return  // Exit the pipeline early
+                        return  // Exit the pipeline early, no need to run further stages
                     }
 
                     // Create the virtual environment if it doesn't exist
@@ -36,7 +36,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run tests using pytest from the virtual environment and generate a JUnit XML report
+                    // This stage won't run if the build is aborted in the previous stage
                     sh './venv/bin/pytest --junitxml=results.xml'  // Run tests and generate results.xml
                 }
             }
@@ -48,9 +48,6 @@ pipeline {
             // Clean up (optional)
             echo 'Cleaning up...'
             sh 'rm -rf venv'
-
-            // Publish test results after the build is complete
-            junit '**/results.xml'  // Publish the results.xml test report
         }
         success {
             echo 'Build and tests succeeded!'
@@ -58,5 +55,7 @@ pipeline {
         failure {
             echo 'Build or tests failed!'
         }
+        // Publish test results after the build is complete (this won't run if build is aborted)
+        junit '**/results.xml'  // Publish the results.xml test report
     }
 }
