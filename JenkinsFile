@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop2', url: 'https://github.com/KAR0203/Daily.git'
+                git branch: 'develop5', url: 'https://github.com/KAR0203/pytest-example.git'
             }
         }
 
