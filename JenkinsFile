@@ -33,7 +33,11 @@ pipeline {
             }
         }
 
+        // Skip this stage if the build is aborted
         stage('Run Tests') {
+            when {
+                expression { currentBuild.result != 'FAILURE' }
+            }
             steps {
                 script {
                     // This stage won't run if the build is aborted in the previous stage
