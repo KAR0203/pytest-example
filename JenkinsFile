@@ -49,13 +49,15 @@ pipeline {
             echo 'Cleaning up...'
             sh 'rm -rf venv'
         }
+
         success {
             echo 'Build and tests succeeded!'
         }
+
         failure {
             echo 'Build or tests failed!'
+            // Publish test results after the build is complete (this will run if the build fails)
+            junit '**/results.xml'  // Publish the results.xml test report only if tests ran
         }
-        // Publish test results after the build is complete (this won't run if build is aborted)
-        junit '**/results.xml'  // Publish the results.xml test report
     }
 }
