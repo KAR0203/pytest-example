@@ -17,9 +17,13 @@ pipeline {
                 script {
                     // Example of aborting the build if a condition is met
                     def conditionToAbort = true  // This is just an example condition
+                    echo "Checking condition to abort: ${conditionToAbort}"
+
                     if (conditionToAbort) {
                         echo 'Aborting the build due to a condition being met.'
-                        error 'Aborting build...'  // This will stop the build execution
+                        // Set the build result to failure and stop further execution
+                        currentBuild.result = 'FAILURE'
+                        return  // Exit the pipeline early
                     }
 
                     // Create the virtual environment if it doesn't exist
