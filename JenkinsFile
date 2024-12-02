@@ -45,9 +45,7 @@ pipeline {
             echo 'Build or tests failed!'
         }
 
-        // Publish test results after the build is complete
-        publishJUnitResults: {
-            junit '**/results.xml'  // Publish the results.xml test report
-        }
+        // Correct placement of junit step to publish test results
+        junit '**/results.xml'  // Publish the results.xml test report
     }
 }
