@@ -15,6 +15,13 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
+                    // Example of aborting the build if a condition is met
+                    def conditionToAbort = true  // This is just an example condition
+                    if (conditionToAbort) {
+                        echo 'Aborting the build due to a condition being met.'
+                        error 'Aborting build...'  // This will stop the build execution
+                    }
+
                     // Create the virtual environment if it doesn't exist
                     sh '${PYTHON_HOME} -m venv venv'  // Create virtual environment
                     sh './venv/bin/pip install -r requirements.txt'  // Install dependencies
