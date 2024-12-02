@@ -25,8 +25,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run tests using pytest from the virtual environment
-                    sh './venv/bin/pytest'  // Run tests
+                    // Run tests using pytest from the virtual environment and generate a JUnit XML report
+                    sh './venv/bin/pytest --junitxml=results.xml'  // Run tests and generate results.xml
                 }
             }
         }
@@ -34,15 +34,20 @@ pipeline {
 
     post {
         always {
-            // Clean up after the build
+            // Clean up (optional)
             echo 'Cleaning up...'
-            sh 'rm -rf venv'  // Remove virtual environment after use
+            sh 'rm -rf venv'
         }
         success {
             echo 'Build and tests succeeded!'
         }
         failure {
             echo 'Build or tests failed!'
+        }
+
+        // Publish test results after the build is complete
+        publishJUnitResults: {
+            junit '**/results.xml'  // Publish the results.xml test report
         }
     }
 }
