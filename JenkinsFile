@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PYTHON_HOME = '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python'  // Virtual environment Python path
+        PYTHON_HOME = '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python'
     }
 
     stages {
@@ -11,37 +11,30 @@ pipeline {
                 git branch: 'develop5', url: 'https://github.com/KAR0203/pytest-example.git'
             }
         }
-
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Example of aborting the build if a condition is met
-                    def conditionToAbort = true  // This is just an example condition
+
+                    def conditionToAbort = true
                     echo "Checking condition to abort: ${conditionToAbort}"
 
                     if (conditionToAbort) {
                         echo 'Aborting the build due to a condition being met.'
-                        // Set the build result to failure and stop further execution
                         currentBuild.result = 'ABORTED'
-                        return  // Exit the pipeline early, no need to run further stages
+                        return
                     }
-
-                    // Create the virtual environment if it doesn't exist
-                    sh '${PYTHON_HOME} -m venv venv'  // Create virtual environment
-                    sh './venv/bin/pip install -r requirements.txt'  // Install dependencies
+                    sh '${PYTHON_HOME} -m venv venv'
+                    sh './venv/bin/pip install -r requirements.txt'
                 }
             }
         }
-
-        // Skip this stage if the build is aborted
         stage('Run Tests') {
             when {
                 expression { currentBuild.result != 'ABORTED' }
             }
             steps {
                 script {
-                    // This stage won't run if the build is aborted in the previous stage
-                    sh './venv/bin/pytest --junitxml=results.xml'  // Run tests and generate results.xml
+                    sh './venv/bin/pytest --junitxml=results.xml'
                 }
             }
         }
@@ -49,25 +42,21 @@ pipeline {
 
     post {
         always {
-            // Clean up (optional)
             echo 'Cleaning up...'
             sh 'rm -rf venv'
         }
 
         success {
             echo 'Build and tests succeeded!'
-            // Publish test results only if tests were run successfully
-            junit '**/results.xml'  // Publish the results.xml test report only if tests ran
+            junit '**/results.xml'
         }
 
         failure {
             echo 'Build or tests failed!'
-            // No test results publishing if build fails without running tests
         }
 
         aborted {
             echo 'Build was aborted, no tests were run.'
-            // No test results publishing if build was aborted
         }
     }
 }
