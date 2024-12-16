@@ -52,15 +52,17 @@ pipeline {
             echo 'Cleaning up...'
             sh 'rm -rf venv'
         }
- success {
-            echo 'Build and tests succeeded!'
-            // Publish test results only if tests were run successfully
-            junit '**/results.xml'  // Publish the results.xml test report only if tests ran
-        }
 
-        failure {
-            echo 'Build or tests failed!'
-            // No test results publishing if build fails without running tests
+        success {
+            echo 'Build and tests succeeded!'
+            // Only publish the test results if tests were run
+            script {
+                if (fileExists('results.xml')) {
+                    junit '**/results.xml'  // Publish the results.xml test report if it exists
+                } else {
+                    echo 'No test results found to publish!'
+                }
+            }
         }
 
         failure {
