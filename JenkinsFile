@@ -1,8 +1,15 @@
 pipeline {
     agent any
+
     parameters {
+        // Parameter to specify the Git branch to checkout
         string(name: 'BRANCH_NAME', defaultValue: 'develop2', description: 'The branch to checkout')
+
+        // Parameter to specify the Python executable path
         string(name: 'PYTHON_HOME', defaultValue: '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python', description: 'Path to the Python executable')
+
+        // Optional: Boolean parameter to decide if tests should run
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Whether to run tests or not')
     }
 
     environment {
@@ -40,7 +47,8 @@ pipeline {
 
         stage('Run Tests') {
             when {
-                expression { currentBuild.result != 'ABORTED' }
+                // Only run tests if RUN_TESTS parameter is true and the build wasn't aborted
+                expression { params.RUN_TESTS && currentBuild.result != 'ABORTED' }
             }
             steps {
                 script {
