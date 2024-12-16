@@ -52,11 +52,15 @@ pipeline {
             echo 'Cleaning up...'
             sh 'rm -rf venv'
         }
-
-        success {
+ success {
             echo 'Build and tests succeeded!'
-            // Publish JUnit test results
-            junit '**/results.xml' // Ensure the path to the results.xml is correct
+            // Publish test results only if tests were run successfully
+            junit '**/results.xml'  // Publish the results.xml test report only if tests ran
+        }
+
+        failure {
+            echo 'Build or tests failed!'
+            // No test results publishing if build fails without running tests
         }
 
         failure {
