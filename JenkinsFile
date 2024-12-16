@@ -1,43 +1,50 @@
 pipeline {
     agent any
-      parameters {
-            string(name: 'BRANCH_NAME', defaultValue: 'develop2', description: 'The branch to checkout')
-            string(name: 'PYTHON_HOME', defaultValue: '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python', description: 'Path to the Python executable')
-        }
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'develop2', description: 'The branch to checkout')
+        string(name: 'PYTHON_HOME', defaultValue: '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python', description: 'Path to the Python executable')
+    }
 
     environment {
-        PYTHON_HOME = '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python'
+        // Using the parameterized PYTHON_HOME instead of a static value
+        PYTHON_HOME = "${params.PYTHON_HOME}"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop5', url: 'https://github.com/KAR0203/pytest-example.git'
+                echo "Checking out branch: ${params.BRANCH_NAME}"
+                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/KAR0203/pytest-example.git'
             }
         }
+
         stage('Install Dependencies') {
             steps {
                 script {
-
-                    def conditionToAbort = true
+                    def conditionToAbort = false // Ensure this condition is false, no aborting will happen
                     echo "Checking condition to abort: ${conditionToAbort}"
 
+                    // Log the condition instead of aborting
                     if (conditionToAbort) {
-                        echo 'Aborting the build due to a condition being met.'
-                        currentBuild.result = 'ABORTED'
-                        return
+                        echo 'Condition met, but we will NOT abort the build.'
+                    } else {
+                        echo 'Condition not met, proceeding with installation of dependencies.'
                     }
+
+                    echo "Installing dependencies..."
                     sh '${PYTHON_HOME} -m venv venv'
                     sh './venv/bin/pip install -r requirements.txt'
                 }
             }
         }
+
         stage('Run Tests') {
             when {
                 expression { currentBuild.result != 'ABORTED' }
             }
             steps {
                 script {
+                    echo "Running tests..."
                     sh './venv/bin/pytest --junitxml=results.xml'
                 }
             }
