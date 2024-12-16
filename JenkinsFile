@@ -2,19 +2,18 @@ pipeline {
     agent any
 
     parameters {
-        // Parameter to specify the Git branch to checkout
+        // String parameter to specify which branch to checkout
         string(name: 'BRANCH_NAME', defaultValue: 'develop2', description: 'The branch to checkout')
 
-        // Parameter to specify the Python executable path
+        // String parameter for specifying the Python executable path
         string(name: 'PYTHON_HOME', defaultValue: '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python', description: 'Path to the Python executable')
 
-        // Optional: Boolean parameter to decide if tests should run
+        // Boolean parameter to control if tests should run or not
         booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Whether to run tests or not')
     }
 
     environment {
-        // Using the parameterized PYTHON_HOME instead of a static value
-        PYTHON_HOME = "${params.PYTHON_HOME}"
+        PYTHON_HOME = "${params.PYTHON_HOME}" // Using the parameter value for Python home
     }
 
     stages {
@@ -28,16 +27,6 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    def conditionToAbort = false // Ensure this condition is false, no aborting will happen
-                    echo "Checking condition to abort: ${conditionToAbort}"
-
-                    // Log the condition instead of aborting
-                    if (conditionToAbort) {
-                        echo 'Condition met, but we will NOT abort the build.'
-                    } else {
-                        echo 'Condition not met, proceeding with installation of dependencies.'
-                    }
-
                     echo "Installing dependencies..."
                     sh '${PYTHON_HOME} -m venv venv'
                     sh './venv/bin/pip install -r requirements.txt'
@@ -47,8 +36,7 @@ pipeline {
 
         stage('Run Tests') {
             when {
-                // Only run tests if RUN_TESTS parameter is true and the build wasn't aborted
-                expression { params.RUN_TESTS && currentBuild.result != 'ABORTED' }
+                expression { params.RUN_TESTS } // Run tests only if parameter is true
             }
             steps {
                 script {
@@ -72,10 +60,6 @@ pipeline {
 
         failure {
             echo 'Build or tests failed!'
-        }
-
-        aborted {
-            echo 'Build was aborted, no tests were run.'
         }
     }
 }
