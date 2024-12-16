@@ -1,14 +1,20 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'develop2', description: 'The branch to checkout')
+        string(name: 'PYTHON_HOME', defaultValue: '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python', description: 'Path to the Python executable')
+    }
+
     environment {
-        PYTHON_HOME = '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python'
+        PYTHON_HOME = "${params.PYTHON_HOME}"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop2', url: 'https://github.com/KAR0203/pytest-example.git'
+                echo "Checking out branch: ${params.BRANCH_NAME}"
+                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/KAR0203/pytest-example.git'
             }
         }
         stage('Install Dependencies') {
