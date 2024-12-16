@@ -3,7 +3,7 @@ pipeline {
 
     parameters {
         // String parameter to specify which branch to checkout
-        string(name: 'BRANCH_NAME', defaultValue: 'develop2', description: 'The branch to checkout')
+        string(name: 'BRANCH_NAME', defaultValue: 'develop5', description: 'The branch to checkout')
 
         // String parameter for specifying the Python executable path
         string(name: 'PYTHON_HOME', defaultValue: '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python', description: 'Path to the Python executable')
