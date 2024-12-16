@@ -1,5 +1,9 @@
 pipeline {
     agent any
+      parameters {
+            string(name: 'BRANCH_NAME', defaultValue: 'develop2', description: 'The branch to checkout')
+            string(name: 'PYTHON_HOME', defaultValue: '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python', description: 'Path to the Python executable')
+        }
 
     environment {
         PYTHON_HOME = '/Users/karan.pandhare/PytestSample/pytest-example/venv/bin/python'
