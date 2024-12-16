@@ -13,7 +13,7 @@ pipeline {
     }
 
     environment {
-        PYTHON_HOME = "${params.PYTHON_HOME}" // Using the parameter value for Python home
+        PYTHON_HOME = "${params.PYTHON_HOME}"
     }
 
     stages {
@@ -55,7 +55,8 @@ pipeline {
 
         success {
             echo 'Build and tests succeeded!'
-            junit '**/results.xml'
+            // Publish JUnit test results
+            junit '**/results.xml' // Ensure the path to the results.xml is correct
         }
 
         failure {
