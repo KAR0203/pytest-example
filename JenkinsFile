@@ -47,26 +47,29 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            echo 'Cleaning up...'
-            sh 'rm -rf venv'
-        }
+post {
+    always {
+        echo 'Cleaning up...'
+        sh 'rm -rf venv'
+    }
 
-        success {
-            echo 'Build and tests succeeded!'
-            // Only publish the test results if tests were run
-            script {
-                if (fileExists('results.xml')) {
-                    junit '**/results.xml'  // Publish the results.xml test report if it exists
-                } else {
-                    echo 'No test results found to publish!'
-                }
+    success {
+        echo 'Build and tests succeeded!'
+        script {
+            if (fileExists('results.xml')) {
+                junit '**/results.xml'  // Publish results.xml
             }
         }
+    }
 
-        failure {
-            echo 'Build or tests failed!'
+    failure {
+        echo 'Build or tests failed!'
+        script {
+            if (fileExists('results.xml')) {
+                junit '**/results.xml'  // Publish results.xml even if tests fail
+            }
         }
     }
+}
+
 }
